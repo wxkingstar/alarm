@@ -1,0 +1,29 @@
+//
+// Prefix header for all source files of the 'alarm' target in the 'alarm' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+#define APP_VERSION @"0.9"
+
+#ifdef DEBUG 
+#define API_HOST @"alarm.mix.sina.com.cn"
+#else
+#define API_HOST @"alarm.mix.sina.com.cn"
+#endif
+
+#define UDP_HOST @"10.210.136.100"
+
+#import "sqlite3.h"
+sqlite3 *database;
+NSString *loginStatus;//存储登录用户名
+NSString *strDeviceToken;
