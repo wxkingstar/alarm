@@ -28,7 +28,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentView = @"View";
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    if(_refreshHeaderView ==nil){
+        
+        EGORefreshTableHeaderView *view =[[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.messageTableView.bounds.size.height, self.view.frame.size.width, self.messageTableView.bounds.size.height)];
+        view.delegate = self;
+        [self.messageTableView addSubview:view];
+        _refreshHeaderView = view;        
+    }
+    //  update the last update date
+    //[_refreshHeaderView refreshLastUpdatedDate];
+     
+    
     /*
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -38,20 +51,25 @@
      */
     NSError *error;
     //加载一个NSURL对象
-    NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=lists&username=%@&format=json", API_HOST, loginStatus];
+    int rand = arc4random() % 100000000;
+    NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=lists&username=%@&format=json&_=%i", API_HOST, loginStatus, rand];
+    NSLog(@"%@", url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     //将请求的url数据放到NSData对象中
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
     NSDictionary *projectDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
     NSArray *projectDictData = [[projectDict objectForKey:@"result"] objectForKey:@"data"];
-    NSLog(@"weatherInfo字典里面的内容为--》%@", projectDictData );
+    //NSLog(@"weatherInfo字典里面的内容为--》%@", projectDictData );
     
     NSMutableArray *array = [[NSMutableArray alloc]init];
     for (NSDictionary *key in projectDictData) {
+        if ([self.firstId length] == 0) {
+            self.firstId = [key objectForKey:@"id"];
+        }
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
         
-        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"message", [key objectForKey:@"session"], @"session", [self bubbleView:[key objectForKey:@"message"] time:date], @"view", nil]];
+        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"message", [key objectForKey:@"session"], @"session", [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view", [key objectForKey:@"id"], @"id", nil]];
     }
     /*
     //无网络状态调试
@@ -63,7 +81,7 @@
      */
     if ([array count] == 0) {
         NSDate *date = [NSDate date];
-        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"暂无消息", @"message", @"", @"session", [self bubbleView:@"暂无消息" time:date], @"view", nil]];
+        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"暂无消息", @"message", @"", @"session", [self bubbleView:@"暂无消息" time:date level:@"1"], @"view", nil]];
     }
     
     self.projectList = array;
@@ -125,7 +143,7 @@
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
     
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dict objectForKey:@"time"] integerValue]];
-    [self.projectList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[dict objectForKey:@"message"], @"message", [dict objectForKey:@"session"], @"session", [self bubbleView:[dict objectForKey:@"message"] time:date], @"view", nil]];
+    [self.projectList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[dict objectForKey:@"message"], @"message", [dict objectForKey:@"session"], @"session", [self bubbleView:[dict objectForKey:@"message"] time:date level:[dict objectForKey:@"level"]], @"view", nil]];
 	
     [self.messageTableView reloadData];
     [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.projectList count]-1 inSection:0]
@@ -162,7 +180,7 @@
 
 
 //生成泡泡UIView
-- (UIView *)bubbleView:(NSString *)text time:(NSDate *)time {
+- (UIView *)bubbleView:(NSString *)text time:(NSDate *)time level:(NSString *)level {
     //单条消息
     UIView *returnView =  [self assembleMessageAtIndex:text];
     returnView.backgroundColor = [UIColor clearColor];
@@ -180,11 +198,11 @@
     timeView.textColor = [UIColor darkTextColor];
     timeView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     //消息汽泡框
-    UIImage *bubble = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bubble" ofType:@"png"]];
+    UIImage *bubble = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:level ofType:@"png"]];
 	UIImageView *bubbleImageView = [[UIImageView alloc] initWithImage:[bubble stretchableImageWithLeftCapWidth:20 topCapHeight:14]];
 
-    returnView.frame= CGRectMake(35.0f, 20.0f, returnView.frame.size.width, returnView.frame.size.height);
-    bubbleImageView.frame = CGRectMake(20.0f, 17.0f, returnView.frame.size.width+24.0f, returnView.frame.size.height+24.0f);
+    returnView.frame= CGRectMake(35.0f, 25.0f, returnView.frame.size.width, returnView.frame.size.height);
+    bubbleImageView.frame = CGRectMake(20.0f, 17.0f, returnView.frame.size.width+34.0f, returnView.frame.size.height+34.0f);
     cellView.frame = CGRectMake(0.0f, 5.0f, bubbleImageView.frame.size.width+30.0f,bubbleImageView.frame.size.height+20.0f);
     timeView.frame = CGRectMake(25.0f, 0.0f, 200.0f, 20.0f);
     
@@ -234,9 +252,10 @@
 
 //cell渲染
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"cellForRowAtIndexPath");
     
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d", [indexPath section], [indexPath row]];
+    NSUInteger row = [indexPath row];
+    
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%@", [[self.projectList objectAtIndex:row] objectForKey:@"id"]];
     
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: TableSampleIdentifier];
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
@@ -246,8 +265,6 @@
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
-    
-    NSUInteger row = [indexPath row];
     UIView *cellView = [[self.projectList objectAtIndex:row] objectForKey:@"view"];
     [cell addSubview:cellView];
     return cell;
@@ -263,7 +280,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"didSelectRowAtIndexPath");
     NSString *rowString = [[self.projectList objectAtIndex:[indexPath row]] objectForKey:@"message"];
-    NSString *session = [[self.projectList objectAtIndex:[indexPath row]] objectForKey:@"session"];
+    session = [[self.projectList objectAtIndex:[indexPath row]] objectForKey:@"session"];
     if (![session isEqual:@""]) {
         //UIAlertView * alter = [[UIAlertView alloc] initWithTitle:@"选中的行信息" message:rowString delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         //[alter show];
@@ -272,7 +289,6 @@
         ProjectViewController* projectView = [sb instantiateViewControllerWithIdentifier:@"ProjectViewController"];
         //ProjectViewController *projectView = [[ProjectViewController alloc] initWithNibName:@"aaaaa" bundle:nil];
         [projectView setTitle:rowString];
-        [projectView setSession:session];
     
         //[self.udpSocket close];
     
@@ -306,4 +322,93 @@
     UIViewController* viewController = [sb instantiateViewControllerWithIdentifier:@"LoginViewController"];
     [self presentViewController:viewController animated:YES completion:nil];
 }
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+-(void)reloadTableViewDataSource{
+    NSLog(@"reloadTableViewDataSource");
+    //  should be calling your tableviews data source model to reload
+    //  put here just for demo
+    _reloading =YES;
+    
+}
+
+-(void)doneLoadingTableViewData{
+    NSLog(@"doneLoadingTableViewData");
+    //  model should call this when its done loading
+    
+    _reloading =NO;
+    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.messageTableView];
+    
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    //NSLog(@"scrollViewDidScroll");
+    
+    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    //NSLog(@"scrollViewDidEndDragging");
+    
+    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+-(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+    NSLog(@"egoRefreshTableHeaderDidTriggerRefresh");
+    
+    [self reloadTableViewDataSource];
+    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
+    
+}
+
+-(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+    //NSLog(@"egoRefreshTableHeaderDataSourceIsLoading");
+    
+    return _reloading; // should return if data source model is reloading
+    
+}
+
+-(NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    NSLog(@"egoRefreshTableHeaderDataSourceLastUpdated");
+    NSError *error;
+    //加载一个NSURL对象
+    int rand = arc4random() % 100000000;
+    NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=lists&username=%@&format=json&first_id=%@&_=%i", API_HOST, loginStatus, self.firstId, rand];
+    NSLog(@"%@", url);
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    //将请求的url数据放到NSData对象中
+    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
+    NSDictionary *projectDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+    NSArray *projectDictData = [[projectDict objectForKey:@"result"] objectForKey:@"data"];
+    //NSLog(@"weatherInfo字典里面的内容为--》%@", projectDictData );
+    
+    int i = 0;
+    for (NSDictionary *key in projectDictData) {
+        if (i == 0) {
+            self.firstId = [key objectForKey:@"id"];
+        }
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
+        
+        [self.projectList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"message", [key objectForKey:@"session"], @"session", [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view",[key objectForKey:@"id"], @"id", nil] atIndex:i++];
+    }
+
+    [self.messageTableView reloadData];
+    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
+                                 atScrollPosition: UITableViewScrollPositionTop
+                                         animated:NO];
+    return[NSDate date]; // should return date data source was last changed
+    
+}
+ 
 @end

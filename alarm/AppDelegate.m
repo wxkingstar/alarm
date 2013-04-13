@@ -62,8 +62,6 @@
 	NSString *deviceName = dev.name;
 	NSString *deviceModel = dev.model;
 	NSString *deviceSystemVersion = dev.systemVersion;
-    if ([loginStatus isEqual:@""]) {
-    }
     
     NSString *postString = [[NSString alloc] initWithFormat:@"appid=6486b4e9-8228-b83d-4b13-d54f-ebe5f170&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushalert=enabled&pushbadge=enabled&pushsound=enabled&appversion=%@", strDeviceToken, deviceName, deviceModel, deviceSystemVersion, APP_VERSION];
     NSLog(@"%@", postString);
@@ -77,16 +75,19 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"%@", userInfo);
-    /*
+
     if ([[userInfo objectForKey:@"aps"] objectForKey:@"alert"] != NULL) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"推送通知"
-                                                        message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
-                                                       delegate:self
-                                              cancelButtonTitle:@"关闭"
-                                              otherButtonTitles:@"更新状态",nil];
-        [alert show];
+        if ([currentView isEqual:@"View"] || [currentView isEqual:@"ProjectView"]) {
+            self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+            UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            UIViewController* viewController = [sb instantiateViewControllerWithIdentifier:[[NSString alloc] initWithFormat:@"%@Controller", currentView]];
+            
+            NSLog(@"%@", [self.window.rootViewController nibName]);
+            self.window.rootViewController = viewController;
+            [self.window makeKeyAndVisible];
+        }
     }
-     */
+     
     //UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"通知" message:@"我的信息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
 }
 
@@ -114,6 +115,15 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    if ([currentView isEqual:@"View"] || [currentView isEqual:@"ProjectView"]) {
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        UIViewController* viewController = [sb instantiateViewControllerWithIdentifier:[[NSString alloc] initWithFormat:@"%@Controller", currentView]];
+        
+        NSLog(@"%@", [self.window.rootViewController nibName]);
+        self.window.rootViewController = viewController;
+        [self.window makeKeyAndVisible];
+    }
     NSLog(@"applicationWillEnterForeground");
 }
 

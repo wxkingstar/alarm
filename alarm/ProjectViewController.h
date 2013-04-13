@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ProjectViewController.h
 //  alarm
 //
 //  Created by 王 鑫 on 13-3-27.
@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProjectViewController.h"
 #import "AsyncUdpSocket.h"
 #import "EGORefreshTableHeaderView.h"
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-
+@interface ProjectViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> 
 {
     EGORefreshTableHeaderView *_refreshHeaderView;
     
@@ -20,16 +18,18 @@
     //  Putting it here for demo purposes
     BOOL _reloading;
 }
- 
 -(void)reloadTableViewDataSource;
 -(void)doneLoadingTableViewData;
 
-@property (strong, nonatomic) NSMutableArray *projectList;
-@property (nonatomic, retain) ProjectViewController *projectView;
+- (IBAction)back:(UIBarButtonItem *)sender;
+- (IBAction)sendMessageClick:(UIBarButtonItem *)sender;//发送消息按钮
+@property (strong, nonatomic) IBOutlet UITextField *messageTextField;//消息发布框
+@property (strong, nonatomic) IBOutlet UITableView *chatTableView;
+
+@property (strong, nonatomic) NSString *messageString;
+@property (strong, nonatomic) NSMutableArray *chatArray;
+@property (strong, nonatomic) NSString *session;
 @property (strong, nonatomic) AsyncUdpSocket *udpSocket;
-- (IBAction)setting:(UIBarButtonItem *)sender;
-@property (strong, nonatomic) IBOutlet UITableView *messageTableView;
-- (IBAction)logout:(UIBarButtonItem *)sender;
 @property (strong, nonatomic) NSString *firstId;
 
 @end
