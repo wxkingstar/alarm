@@ -361,7 +361,7 @@
 -(UIView *)assembleMessageAtIndex : (NSString *) message
 {
     UIView *returnView = [[UIView alloc] initWithFrame:CGRectZero];
-    UIFont *fon = [UIFont systemFontOfSize:13.0f];
+    UIFont *fon = [UIFont systemFontOfSize:14.0f];
     CGFloat upX = 0;
     CGFloat upY = 0;
     CGFloat X = 0;

@@ -222,11 +222,11 @@
 //计算文字高度
 #define KFacialSizeWidth  18
 #define KFacialSizeHeight 18
-#define MAX_WIDTH 200
+#define MAX_WIDTH 205
 -(UIView *)assembleMessageAtIndex : (NSString *) message
 {
     UIView *returnView = [[UIView alloc] initWithFrame:CGRectZero];
-    UIFont *fon = [UIFont systemFontOfSize:13.0f];
+    UIFont *fon = [UIFont systemFontOfSize:14.0f];
     CGFloat upX = 0;
     CGFloat upY = 0;
     CGFloat X = 0;
