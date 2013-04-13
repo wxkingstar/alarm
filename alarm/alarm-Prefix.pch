@@ -27,3 +27,5 @@
 sqlite3 *database;
 NSString *loginStatus;//存储登录用户名
 NSString *strDeviceToken;
+NSString *currentView;
+NSString *session;
