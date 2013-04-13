@@ -222,7 +222,7 @@
 //计算文字高度
 #define KFacialSizeWidth  18
 #define KFacialSizeHeight 18
-#define MAX_WIDTH 205
+#define MAX_WIDTH 200
 -(UIView *)assembleMessageAtIndex : (NSString *) message
 {
     UIView *returnView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -321,18 +321,31 @@
     NSString *rowString = [[self.projectList objectAtIndex:[indexPath row]] objectForKey:@"message"];
     session = [[self.projectList objectAtIndex:[indexPath row]] objectForKey:@"session"];
     if (![session isEqual:@""]) {
-        //UIAlertView * alter = [[UIAlertView alloc] initWithTitle:@"选中的行信息" message:rowString delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        //[alter show];
+        /*
+        ProjectViewController *detail = [self.storyboard instantiateViewControllerWithIdentifier:@"ProjectViewController"];
+        
+        [self.navigationController pushViewController:detail animated:YES];
+        */
         UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                   bundle:nil];
         ProjectViewController* projectView = [sb instantiateViewControllerWithIdentifier:@"ProjectViewController"];
-        //ProjectViewController *projectView = [[ProjectViewController alloc] initWithNibName:@"aaaaa" bundle:nil];
+        
         [projectView setTitle:rowString];
-    
+        /*
+        CATransition *transition = [CATransition animation];
+        transition.duration = 0.3f;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        
+        transition.type = kCATransitionPush;
+        transition.subtype = kCATransitionFromRight;
+        transition.delegate = self;
+        [self.view.layer addAnimation:transition forKey:nil];
+        
+        [self.view addSubview:projectView.view];
+    */
         //[self.udpSocket close];
     
         [self presentViewController:projectView animated:YES completion:nil];
-        //[self.view addSubview:self.projectView];
     }
 }
 

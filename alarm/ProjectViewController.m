@@ -409,11 +409,21 @@
 
 //返回按钮
 - (IBAction)back:(UIBarButtonItem *)sender {
+    
     UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard"
                                                   bundle:nil];
     UIViewController* view = [sb
                               instantiateViewControllerWithIdentifier:@"ViewController"];
-    
+     /*
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.3f;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromLeft;
+    transition.delegate = self;
+    [self.view.superview.layer addAnimation:transition forKey:nil];
+    [self.view removeFromSuperview];
+      */
     //[self.udpSocket close];
     [self presentViewController:view animated:YES completion:nil];
 }
