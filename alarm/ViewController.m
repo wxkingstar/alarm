@@ -69,7 +69,13 @@
         }
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
         
-        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"message", [key objectForKey:@"session"], @"session", [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view", [key objectForKey:@"id"], @"id", nil]];
+        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                          [key objectForKey:@"message"], @"message",
+                          [key objectForKey:@"session"], @"session",
+                          [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view",
+                          [key objectForKey:@"id"], @"id",
+                          [key objectForKey:@"link"], @"link",
+                          nil]];
     }
     /*
     //无网络状态调试
@@ -267,8 +273,41 @@
     }
     UIView *cellView = [[self.projectList objectAtIndex:row] objectForKey:@"view"];
     [cell addSubview:cellView];
+    //长按
+    UILongPressGestureRecognizer *longPress =
+    [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(handleTableviewCellLongPressed:)];
+    //代理
+    longPress.delegate = self;
+    longPress.minimumPressDuration = 2.0;
+    //将长按手势添加到需要实现长按操作的视图里
+    [cell addGestureRecognizer:longPress];
     return cell;
 }
+//长按事件的实现方法
+- (void) handleTableviewCellLongPressed:(UILongPressGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint point = [gestureRecognizer locationInView:self.messageTableView];
+        NSIndexPath *indexPath = [self.messageTableView indexPathForRowAtPoint:point];
+        if (indexPath != nil) {
+            int row = [indexPath row];
+            NSString *openUrl = [[self.projectList objectAtIndex:row] objectForKey:@"link"];
+            if ([openUrl length] > 0) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:openUrl]];
+            }
+        }
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"UIGestureRecognizerStateChanged");
+    }
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"UIGestureRecognizerStateEnded");
+    }
+    
+}
+
 
 //行数
 -(NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section{
@@ -400,7 +439,13 @@
         }
         NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
         
-        [self.projectList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"message", [key objectForKey:@"session"], @"session", [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view",[key objectForKey:@"id"], @"id", nil] atIndex:i++];
+        [self.projectList insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [key objectForKey:@"message"], @"message",
+                                        [key objectForKey:@"session"], @"session",
+                                        [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view",
+                                        [key objectForKey:@"id"], @"id",
+                                        [key objectForKey:@"link"], @"link",
+                                        nil] atIndex:i++];
     }
 
     [self.messageTableView reloadData];

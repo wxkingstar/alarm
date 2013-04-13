@@ -81,7 +81,13 @@
         } else {
             from = NO;
         }
-        [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"text", [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"]], @"view", [key objectForKey:@"send_user"], @"speaker", [key objectForKey:@"id"], @"id", nil]];
+        [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   [key objectForKey:@"message"], @"text",
+                                   [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"]], @"view",
+                                   [key objectForKey:@"send_user"], @"speaker",
+                                   [key objectForKey:@"id"], @"id",
+                                   [key objectForKey:@"link"], @"link",
+                                   nil]];
     }
 
     
@@ -202,7 +208,13 @@
     }
     
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dict objectForKey:@"time"] integerValue]];
-    [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:[dict objectForKey:@"message"], @"text", [self bubbleView:[dict objectForKey:@"message"] time:date from:NO level:[dict objectForKey:@"level"]], @"view", [dict objectForKey:@"send_user"], @"speaker", nil]];
+    [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                               [dict objectForKey:@"message"], @"text",
+                               [self bubbleView:[dict objectForKey:@"message"] time:date from:NO level:[dict objectForKey:@"level"]], @"view",
+                               [dict objectForKey:@"send_user"], @"speaker",
+                               [dict objectForKey:@"id"], @"id",
+                               [dict objectForKey:@"link"], @"link",
+                               nil]];
     [self.chatTableView reloadData];
     [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.chatArray count]-1 inSection:0]
                                  atScrollPosition: UITableViewScrollPositionBottom
@@ -255,9 +267,41 @@
     UIView *cellView = [[self.chatArray objectAtIndex:row] objectForKey:@"view"];
     [cell.contentView addSubview:cellView];
 
- 
+    //长按
+    UILongPressGestureRecognizer *longPress =
+    [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(handleTableviewCellLongPressed:)];
+    //代理
+    longPress.delegate = self;
+    longPress.minimumPressDuration = 2.0;
+    //将长按手势添加到需要实现长按操作的视图里
+    [cell addGestureRecognizer:longPress];
 
     return cell;
+}
+
+//长按事件的实现方法
+- (void) handleTableviewCellLongPressed:(UILongPressGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint point = [gestureRecognizer locationInView:self.chatTableView];
+        NSIndexPath *indexPath = [self.chatTableView indexPathForRowAtPoint:point];
+        if (indexPath != nil) {
+            int row = [indexPath row];
+            NSString *openUrl = [[self.chatArray objectAtIndex:row] objectForKey:@"link"];
+            if ([openUrl length] > 0) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:openUrl]];
+            }
+        }
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"UIGestureRecognizerStateChanged");
+    }
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"UIGestureRecognizerStateEnded");
+    }
+    
 }
 
 //生成泡泡UIView
@@ -313,7 +357,7 @@
 //计算文字高度
 #define KFacialSizeWidth  18
 #define KFacialSizeHeight 18
-#define MAX_WIDTH 150
+#define MAX_WIDTH 180
 -(UIView *)assembleMessageAtIndex : (NSString *) message
 {
     UIView *returnView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -328,7 +372,7 @@
             if (upX >= MAX_WIDTH) {
                 upY = upY + KFacialSizeHeight;
                 upX = 0;
-                X = 150;
+                X = MAX_WIDTH;
             }
             CGSize size=[temp sizeWithFont:fon constrainedToSize:CGSizeMake(150, 40)];
             UILabel *la = [[UILabel alloc] initWithFrame:CGRectMake(upX,upY,size.width,size.height)];
@@ -337,7 +381,7 @@
             la.backgroundColor = [UIColor clearColor];
             [returnView addSubview:la];
             upX=upX+size.width;
-            if (X<150) {
+            if (X<MAX_WIDTH) {
                 X = upX;
             }
         }
@@ -490,7 +534,13 @@
         } else {
             from = NO;
         }
-        [self.chatArray insertObject:[NSDictionary dictionaryWithObjectsAndKeys:[key objectForKey:@"message"], @"text", [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"]], @"view", [key objectForKey:@"send_user"], @"speaker", [key objectForKey:@"id"], @"id", nil] atIndex:i++];
+        [self.chatArray insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                      [key objectForKey:@"message"], @"text",
+                                      [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"]], @"view",
+                                      [key objectForKey:@"send_user"], @"speaker",
+                                      [key objectForKey:@"id"], @"id",
+                                      [key objectForKey:@"link"], @"link",
+                                      nil] atIndex:i++];
     }
     
     [self.chatTableView reloadData];
