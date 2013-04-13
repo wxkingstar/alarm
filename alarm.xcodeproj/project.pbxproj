@@ -7,12 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D03420DE1702A68900128B65 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03420DD1702A68900128B65 /* ProjectViewController.m */; };
+		D0443AAD1717D20E00040F1D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AAA1717D20E00040F1D /* Icon.png */; };
+		D0443AAE1717D20E00040F1D /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0443AAC1717D20E00040F1D /* ProjectViewController.m */; };
+		D0443AC21717DF8900040F1D /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ABF1717DF8800040F1D /* 1.png */; };
+		D0443AC31717DF8900040F1D /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AC01717DF8800040F1D /* 2.png */; };
+		D0443AC41717DF8900040F1D /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AC11717DF8800040F1D /* 3.png */; };
+		D0443AC717184D8F00040F1D /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0443AC617184D8F00040F1D /* EGORefreshTableHeaderView.m */; };
+		D0443AD41718534800040F1D /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AC91718534800040F1D /* blackArrow.png */; };
+		D0443AD51718534800040F1D /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ACA1718534800040F1D /* blackArrow@2x.png */; };
+		D0443AD61718534800040F1D /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ACB1718534800040F1D /* blueArrow.png */; };
+		D0443AD71718534800040F1D /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ACC1718534800040F1D /* blueArrow@2x.png */; };
+		D0443AD81718534800040F1D /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ACD1718534800040F1D /* grayArrow.png */; };
+		D0443AD91718534800040F1D /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ACE1718534800040F1D /* grayArrow@2x.png */; };
+		D0443ADD1718534800040F1D /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AD21718534800040F1D /* whiteArrow.png */; };
+		D0443ADE1718534800040F1D /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AD31718534800040F1D /* whiteArrow@2x.png */; };
+		D0443AE117185A3200040F1D /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = D0EF11501702A02900FF8E2B /* AppDelegate.h */; };
+		D0443AE217185A3900040F1D /* ViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0EF115C1702A02900FF8E2B /* ViewController.h */; };
+		D0443AE317185A3C00040F1D /* ProjectViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0443AAB1717D20E00040F1D /* ProjectViewController.h */; };
+		D0443AE417185A3D00040F1D /* SettingViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0C47CD71704018E00992757 /* SettingViewController.h */; };
+		D0443AE517185A3F00040F1D /* LoginViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0B93E241711872B00D6D182 /* LoginViewController.h */; };
+		D0443AE617185A4100040F1D /* EGORefreshTableHeaderView.h in Sources */ = {isa = PBXBuildFile; fileRef = D0443AC517184D8F00040F1D /* EGORefreshTableHeaderView.h */; };
+		D0443AE81718E94900040F1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0443AE71718E94900040F1D /* QuartzCore.framework */; };
 		D0656A561712C3F600F39A8F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0656A551712C3F600F39A8F /* libsqlite3.0.dylib */; };
 		D0656A581712D07400F39A8F /* user.db in Resources */ = {isa = PBXBuildFile; fileRef = D0656A571712D07400F39A8F /* user.db */; };
-		D0759AE01715688E00F79890 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D0759ADF1715688E00F79890 /* Icon.png */; };
 		D0794EEB170BBF5900B38973 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = D0794EE8170BBF5900B38973 /* AsyncUdpSocket.m */; };
-		D0794EEE170C0AF700B38973 /* bubble2.png in Resources */ = {isa = PBXBuildFile; fileRef = D0794EED170C0AF700B38973 /* bubble2.png */; };
 		D0B404BC17115A1400B5E37A /* 1.caf in Resources */ = {isa = PBXBuildFile; fileRef = D0B404BB17115A1400B5E37A /* 1.caf */; };
 		D0B93E261711872B00D6D182 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B93E251711872B00D6D182 /* LoginViewController.m */; };
 		D0B93E2917118B0400D6D182 /* 2.caf in Resources */ = {isa = PBXBuildFile; fileRef = D0B93E2717118B0400D6D182 /* 2.caf */; };
@@ -34,7 +52,6 @@
 		D0EF11681702A02900FF8E2B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0EF11431702A02900FF8E2B /* Foundation.framework */; };
 		D0EF11701702A02900FF8E2B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0EF116E1702A02900FF8E2B /* InfoPlist.strings */; };
 		D0EF11731702A02900FF8E2B /* alarmTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0EF11721702A02900FF8E2B /* alarmTests.m */; };
-		D0FFD95C17074BA100016EAA /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FFD95817074BA100016EAA /* bubble.png */; };
 		D0FFD95D17074BA100016EAA /* bubbleSelf.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FFD95917074BA100016EAA /* bubbleSelf.png */; };
 		D0FFD95E17074BA100016EAA /* default_head_online.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FFD95A17074BA100016EAA /* default_head_online.png */; };
 		D0FFD95F17074BA100016EAA /* face_test.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FFD95B17074BA100016EAA /* face_test.png */; };
@@ -51,14 +68,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D03420DC1702A68900128B65 /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectViewController.h; path = ../ProjectViewController.h; sourceTree = "<group>"; };
-		D03420DD1702A68900128B65 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectViewController.m; path = ../ProjectViewController.m; sourceTree = "<group>"; };
+		D0443AAA1717D20E00040F1D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		D0443AAB1717D20E00040F1D /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
+		D0443AAC1717D20E00040F1D /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
+		D0443ABF1717DF8800040F1D /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		D0443AC01717DF8800040F1D /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
+		D0443AC11717DF8800040F1D /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
+		D0443AC517184D8F00040F1D /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		D0443AC617184D8F00040F1D /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		D0443AC91718534800040F1D /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackArrow.png; path = Refresh/blackArrow.png; sourceTree = "<group>"; };
+		D0443ACA1718534800040F1D /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blackArrow@2x.png"; path = "Refresh/blackArrow@2x.png"; sourceTree = "<group>"; };
+		D0443ACB1718534800040F1D /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueArrow.png; path = Refresh/blueArrow.png; sourceTree = "<group>"; };
+		D0443ACC1718534800040F1D /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blueArrow@2x.png"; path = "Refresh/blueArrow@2x.png"; sourceTree = "<group>"; };
+		D0443ACD1718534800040F1D /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grayArrow.png; path = Refresh/grayArrow.png; sourceTree = "<group>"; };
+		D0443ACE1718534800040F1D /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grayArrow@2x.png"; path = "Refresh/grayArrow@2x.png"; sourceTree = "<group>"; };
+		D0443AD21718534800040F1D /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whiteArrow.png; path = Refresh/whiteArrow.png; sourceTree = "<group>"; };
+		D0443AD31718534800040F1D /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "whiteArrow@2x.png"; path = "Refresh/whiteArrow@2x.png"; sourceTree = "<group>"; };
+		D0443AE71718E94900040F1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D0656A551712C3F600F39A8F /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		D0656A571712D07400F39A8F /* user.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = user.db; sourceTree = "<group>"; };
-		D0759ADF1715688E00F79890 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		D0794EE7170BBF5900B38973 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
 		D0794EE8170BBF5900B38973 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
-		D0794EED170C0AF700B38973 /* bubble2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble2.png; sourceTree = "<group>"; };
 		D0B404BB17115A1400B5E37A /* 1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.caf; sourceTree = "<group>"; };
 		D0B93E241711872B00D6D182 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		D0B93E251711872B00D6D182 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -88,7 +118,6 @@
 		D0EF116F1702A02900FF8E2B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D0EF11711702A02900FF8E2B /* alarmTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = alarmTests.h; sourceTree = "<group>"; };
 		D0EF11721702A02900FF8E2B /* alarmTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = alarmTests.m; sourceTree = "<group>"; };
-		D0FFD95817074BA100016EAA /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubble.png; sourceTree = "<group>"; };
 		D0FFD95917074BA100016EAA /* bubbleSelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleSelf.png; sourceTree = "<group>"; };
 		D0FFD95A17074BA100016EAA /* default_head_online.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_head_online.png; sourceTree = "<group>"; };
 		D0FFD95B17074BA100016EAA /* face_test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face_test.png; sourceTree = "<group>"; };
@@ -99,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0443AE81718E94900040F1D /* QuartzCore.framework in Frameworks */,
 				D0656A561712C3F600F39A8F /* libsqlite3.0.dylib in Frameworks */,
 				D0EF11421702A02900FF8E2B /* UIKit.framework in Frameworks */,
 				D0EF11441702A02900FF8E2B /* Foundation.framework in Frameworks */,
@@ -150,6 +180,7 @@
 		D0EF11401702A02900FF8E2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0443AE71718E94900040F1D /* QuartzCore.framework */,
 				D0656A551712C3F600F39A8F /* libsqlite3.0.dylib */,
 				D0EF11411702A02900FF8E2B /* UIKit.framework */,
 				D0EF11431702A02900FF8E2B /* Foundation.framework */,
@@ -162,14 +193,24 @@
 		D0EF11471702A02900FF8E2B /* alarm */ = {
 			isa = PBXGroup;
 			children = (
+				D0443AC91718534800040F1D /* blackArrow.png */,
+				D0443ACA1718534800040F1D /* blackArrow@2x.png */,
+				D0443ACB1718534800040F1D /* blueArrow.png */,
+				D0443ACC1718534800040F1D /* blueArrow@2x.png */,
+				D0443ACD1718534800040F1D /* grayArrow.png */,
+				D0443ACE1718534800040F1D /* grayArrow@2x.png */,
+				D0443AD21718534800040F1D /* whiteArrow.png */,
+				D0443AD31718534800040F1D /* whiteArrow@2x.png */,
+				D0443AC517184D8F00040F1D /* EGORefreshTableHeaderView.h */,
+				D0443AC617184D8F00040F1D /* EGORefreshTableHeaderView.m */,
 				D0794EE6170BBF3B00B38973 /* socket */,
 				D0EF11501702A02900FF8E2B /* AppDelegate.h */,
 				D0EF11511702A02900FF8E2B /* AppDelegate.m */,
 				D0EF11591702A02900FF8E2B /* MainStoryboard.storyboard */,
 				D0EF115C1702A02900FF8E2B /* ViewController.h */,
 				D0EF115D1702A02900FF8E2B /* ViewController.m */,
-				D03420DC1702A68900128B65 /* ProjectViewController.h */,
-				D03420DD1702A68900128B65 /* ProjectViewController.m */,
+				D0443AAB1717D20E00040F1D /* ProjectViewController.h */,
+				D0443AAC1717D20E00040F1D /* ProjectViewController.m */,
 				D0C47CD71704018E00992757 /* SettingViewController.h */,
 				D0C47CD81704018E00992757 /* SettingViewController.m */,
 				D0B93E241711872B00D6D182 /* LoginViewController.h */,
@@ -185,13 +226,14 @@
 				D0B404BB17115A1400B5E37A /* 1.caf */,
 				D0B93E2717118B0400D6D182 /* 2.caf */,
 				D0B93E2817118B0400D6D182 /* 3.caf */,
-				D0759ADF1715688E00F79890 /* Icon.png */,
+				D0443ABF1717DF8800040F1D /* 1.png */,
+				D0443AC01717DF8800040F1D /* 2.png */,
+				D0443AC11717DF8800040F1D /* 3.png */,
+				D0443AAA1717D20E00040F1D /* Icon.png */,
 				D0656A571712D07400F39A8F /* user.db */,
-				D0794EED170C0AF700B38973 /* bubble2.png */,
 				D0EF11491702A02900FF8E2B /* alarm-Info.plist */,
 				D0EF114A1702A02900FF8E2B /* InfoPlist.strings */,
 				D0EF114D1702A02900FF8E2B /* main.m */,
-				D0FFD95817074BA100016EAA /* bubble.png */,
 				D0FFD95917074BA100016EAA /* bubbleSelf.png */,
 				D0FFD95A17074BA100016EAA /* default_head_online.png */,
 				D0FFD95B17074BA100016EAA /* face_test.png */,
@@ -298,16 +340,25 @@
 				D0EF11561702A02900FF8E2B /* Default@2x.png in Resources */,
 				D0EF11581702A02900FF8E2B /* Default-568h@2x.png in Resources */,
 				D0EF115B1702A02900FF8E2B /* MainStoryboard.storyboard in Resources */,
-				D0FFD95C17074BA100016EAA /* bubble.png in Resources */,
 				D0FFD95D17074BA100016EAA /* bubbleSelf.png in Resources */,
 				D0FFD95E17074BA100016EAA /* default_head_online.png in Resources */,
 				D0FFD95F17074BA100016EAA /* face_test.png in Resources */,
-				D0794EEE170C0AF700B38973 /* bubble2.png in Resources */,
 				D0B404BC17115A1400B5E37A /* 1.caf in Resources */,
 				D0B93E2917118B0400D6D182 /* 2.caf in Resources */,
 				D0B93E2A17118B0400D6D182 /* 3.caf in Resources */,
 				D0656A581712D07400F39A8F /* user.db in Resources */,
-				D0759AE01715688E00F79890 /* Icon.png in Resources */,
+				D0443AAD1717D20E00040F1D /* Icon.png in Resources */,
+				D0443AC21717DF8900040F1D /* 1.png in Resources */,
+				D0443AC31717DF8900040F1D /* 2.png in Resources */,
+				D0443AC41717DF8900040F1D /* 3.png in Resources */,
+				D0443AD41718534800040F1D /* blackArrow.png in Resources */,
+				D0443AD51718534800040F1D /* blackArrow@2x.png in Resources */,
+				D0443AD61718534800040F1D /* blueArrow.png in Resources */,
+				D0443AD71718534800040F1D /* blueArrow@2x.png in Resources */,
+				D0443AD81718534800040F1D /* grayArrow.png in Resources */,
+				D0443AD91718534800040F1D /* grayArrow@2x.png in Resources */,
+				D0443ADD1718534800040F1D /* whiteArrow.png in Resources */,
+				D0443ADE1718534800040F1D /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,12 +394,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0EF114E1702A02900FF8E2B /* main.m in Sources */,
+				D0443AE117185A3200040F1D /* AppDelegate.h in Sources */,
 				D0EF11521702A02900FF8E2B /* AppDelegate.m in Sources */,
 				D0EF115E1702A02900FF8E2B /* ViewController.m in Sources */,
-				D03420DE1702A68900128B65 /* ProjectViewController.m in Sources */,
+				D0443AE617185A4100040F1D /* EGORefreshTableHeaderView.h in Sources */,
+				D0443AE217185A3900040F1D /* ViewController.h in Sources */,
+				D0443AE317185A3C00040F1D /* ProjectViewController.h in Sources */,
+				D0443AE517185A3F00040F1D /* LoginViewController.h in Sources */,
 				D0C47CD91704018E00992757 /* SettingViewController.m in Sources */,
+				D0443AE417185A3D00040F1D /* SettingViewController.h in Sources */,
 				D0794EEB170BBF5900B38973 /* AsyncUdpSocket.m in Sources */,
 				D0B93E261711872B00D6D182 /* LoginViewController.m in Sources */,
+				D0443AAE1717D20E00040F1D /* ProjectViewController.m in Sources */,
+				D0443AC717184D8F00040F1D /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +520,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarm/alarm-Prefix.pch";
 				INFOPLIST_FILE = "alarm/alarm-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9865060E-E629-4363-8011-1E603B14AED9";
@@ -477,6 +536,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarm/alarm-Prefix.pch";
 				INFOPLIST_FILE = "alarm/alarm-Info.plist";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9865060E-E629-4363-8011-1E603B14AED9";

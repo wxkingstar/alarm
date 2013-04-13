@@ -34,14 +34,9 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CsP-3c-Nk9">
                                 <items>
                                     <navigationItem title="监控中心" id="dZQ-kV-oeV">
-                                        <barButtonItem key="leftBarButtonItem" title="注销" id="zwC-0q-W2i">
+                                        <barButtonItem key="rightBarButtonItem" title="注销" id="zwC-0q-W2i">
                                             <connections>
                                                 <action selector="logout:" destination="2" id="ayp-Hu-Xl7"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="设置" id="xgZ-rP-Kj1">
-                                            <connections>
-                                                <action selector="setting:" destination="2" id="PnT-QN-BC3"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -64,6 +59,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
+                <barButtonItem title="设置" id="xgZ-rP-Kj1">
+                    <connections>
+                        <action selector="setting:" destination="2" id="PnT-QN-BC3"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="133" y="-25"/>
         </scene>
