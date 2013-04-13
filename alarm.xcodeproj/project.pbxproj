@@ -21,12 +21,6 @@
 		D0443AD91718534800040F1D /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ACE1718534800040F1D /* grayArrow@2x.png */; };
 		D0443ADD1718534800040F1D /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AD21718534800040F1D /* whiteArrow.png */; };
 		D0443ADE1718534800040F1D /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AD31718534800040F1D /* whiteArrow@2x.png */; };
-		D0443AE117185A3200040F1D /* AppDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = D0EF11501702A02900FF8E2B /* AppDelegate.h */; };
-		D0443AE217185A3900040F1D /* ViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0EF115C1702A02900FF8E2B /* ViewController.h */; };
-		D0443AE317185A3C00040F1D /* ProjectViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0443AAB1717D20E00040F1D /* ProjectViewController.h */; };
-		D0443AE417185A3D00040F1D /* SettingViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0C47CD71704018E00992757 /* SettingViewController.h */; };
-		D0443AE517185A3F00040F1D /* LoginViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = D0B93E241711872B00D6D182 /* LoginViewController.h */; };
-		D0443AE617185A4100040F1D /* EGORefreshTableHeaderView.h in Sources */ = {isa = PBXBuildFile; fileRef = D0443AC517184D8F00040F1D /* EGORefreshTableHeaderView.h */; };
 		D0443AE81718E94900040F1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0443AE71718E94900040F1D /* QuartzCore.framework */; };
 		D0656A561712C3F600F39A8F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0656A551712C3F600F39A8F /* libsqlite3.0.dylib */; };
 		D0656A581712D07400F39A8F /* user.db in Resources */ = {isa = PBXBuildFile; fileRef = D0656A571712D07400F39A8F /* user.db */; };
@@ -149,6 +143,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D0443AE9171914C300040F1D /* refresh */ = {
+			isa = PBXGroup;
+			children = (
+				D0443AC91718534800040F1D /* blackArrow.png */,
+				D0443ACA1718534800040F1D /* blackArrow@2x.png */,
+				D0443ACB1718534800040F1D /* blueArrow.png */,
+				D0443ACC1718534800040F1D /* blueArrow@2x.png */,
+				D0443ACD1718534800040F1D /* grayArrow.png */,
+				D0443ACE1718534800040F1D /* grayArrow@2x.png */,
+				D0443AD21718534800040F1D /* whiteArrow.png */,
+				D0443AD31718534800040F1D /* whiteArrow@2x.png */,
+				D0443AC517184D8F00040F1D /* EGORefreshTableHeaderView.h */,
+				D0443AC617184D8F00040F1D /* EGORefreshTableHeaderView.m */,
+			);
+			name = refresh;
+			sourceTree = "<group>";
+		};
 		D0794EE6170BBF3B00B38973 /* socket */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,16 +204,7 @@
 		D0EF11471702A02900FF8E2B /* alarm */ = {
 			isa = PBXGroup;
 			children = (
-				D0443AC91718534800040F1D /* blackArrow.png */,
-				D0443ACA1718534800040F1D /* blackArrow@2x.png */,
-				D0443ACB1718534800040F1D /* blueArrow.png */,
-				D0443ACC1718534800040F1D /* blueArrow@2x.png */,
-				D0443ACD1718534800040F1D /* grayArrow.png */,
-				D0443ACE1718534800040F1D /* grayArrow@2x.png */,
-				D0443AD21718534800040F1D /* whiteArrow.png */,
-				D0443AD31718534800040F1D /* whiteArrow@2x.png */,
-				D0443AC517184D8F00040F1D /* EGORefreshTableHeaderView.h */,
-				D0443AC617184D8F00040F1D /* EGORefreshTableHeaderView.m */,
+				D0443AE9171914C300040F1D /* refresh */,
 				D0794EE6170BBF3B00B38973 /* socket */,
 				D0EF11501702A02900FF8E2B /* AppDelegate.h */,
 				D0EF11511702A02900FF8E2B /* AppDelegate.m */,
@@ -394,15 +396,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0EF114E1702A02900FF8E2B /* main.m in Sources */,
-				D0443AE117185A3200040F1D /* AppDelegate.h in Sources */,
 				D0EF11521702A02900FF8E2B /* AppDelegate.m in Sources */,
 				D0EF115E1702A02900FF8E2B /* ViewController.m in Sources */,
-				D0443AE617185A4100040F1D /* EGORefreshTableHeaderView.h in Sources */,
-				D0443AE217185A3900040F1D /* ViewController.h in Sources */,
-				D0443AE317185A3C00040F1D /* ProjectViewController.h in Sources */,
-				D0443AE517185A3F00040F1D /* LoginViewController.h in Sources */,
 				D0C47CD91704018E00992757 /* SettingViewController.m in Sources */,
-				D0443AE417185A3D00040F1D /* SettingViewController.h in Sources */,
 				D0794EEB170BBF5900B38973 /* AsyncUdpSocket.m in Sources */,
 				D0B93E261711872B00D6D182 /* LoginViewController.m in Sources */,
 				D0443AAE1717D20E00040F1D /* ProjectViewController.m in Sources */,
