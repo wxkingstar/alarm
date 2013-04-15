@@ -39,56 +39,24 @@
     }
     
     currentView = @"ProjectView";
-    //设置bar
-    UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [navigationBar setBarStyle:UIBarStyleDefault];
-    UINavigationItem *myNavigationItem = [[UINavigationItem alloc] initWithTitle: self.title];
-    
-    //设置左按钮
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
-    myNavigationItem.leftBarButtonItem = leftButton;
-    
-    [navigationBar setItems:[NSArray arrayWithObject:myNavigationItem]];
-    
-    [self.view addSubview: navigationBar];
-    
     //self.navigationItem.title = @"标题";
     //初始化变量
     self.chatArray = [[NSMutableArray alloc] init];
-    NSError *error;
-    //加载一个NSURL对象
-    int rand = arc4random() % 100000000;
-    NSString *url = [[NSString alloc] initWithFormat:@"%@%@?s=client&a=session_list&format=json&session=%@&_=%i", @"http://", API_HOST, session, rand];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSLog(@"%@", url);
-    //将请求的url数据放到NSData对象中
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
-    NSArray *dictData = [[dict objectForKey:@"result"] objectForKey:@"data"];
-    NSLog(@"weatherInfo字典里面的内容为--》%@", dictData );
+        
+    //设置bar
+    UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [navigationBar setBarStyle:UIBarStyleDefault];
+    self.myNavigationItem = [[UINavigationItem alloc] init];
     
-    for (NSDictionary *key in dictData) {
-        if ([self.firstId length] == 0) {
-            self.firstId = [key objectForKey:@"id"];
-        }
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
-        BOOL from;
-        if ([[key objectForKey:@"send_user"] isEqual:@"system"]) {
-            from = NO;
-        } else if ([[key objectForKey:@"send_user"] isEqual:loginStatus]) {
-            from = YES;
-        } else {
-            from = NO;
-        }
-        [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   [key objectForKey:@"message"], @"text",
-                                   [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"]], @"view",
-                                   [key objectForKey:@"send_user"], @"speaker",
-                                   [key objectForKey:@"id"], @"id",
-                                   [key objectForKey:@"link"], @"link",
-                                   nil]];
-    }
+    //设置左按钮
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+    self.myNavigationItem.leftBarButtonItem = leftButton;
+    
+    [navigationBar setItems:[NSArray arrayWithObject:self.myNavigationItem]];
+    
+    [self.view addSubview: navigationBar];
+    
+
 
     
     //键盘事件监听
@@ -100,10 +68,7 @@
     
     //[self openUDPServer];
     
-    [self.chatTableView reloadData];
-    [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.chatArray count]-1 inSection:0]
-                              atScrollPosition: UITableViewScrollPositionBottom
-									  animated:YES];//自动滑动到底部
+    [self loadData:YES];
 }
 
 
@@ -210,7 +175,7 @@
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[dict objectForKey:@"time"] integerValue]];
     [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                [dict objectForKey:@"message"], @"text",
-                               [self bubbleView:[dict objectForKey:@"message"] time:date from:NO level:[dict objectForKey:@"level"]], @"view",
+                               [self bubbleView:[dict objectForKey:@"message"] time:date from:NO level:[dict objectForKey:@"level"] sendUser:[dict objectForKey:@"send_user"]], @"view",
                                [dict objectForKey:@"send_user"], @"speaker",
                                [dict objectForKey:@"id"], @"id",
                                [dict objectForKey:@"link"], @"link",
@@ -305,7 +270,7 @@
 }
 
 //生成泡泡UIView
-- (UIView *)bubbleView:(NSString *)text time:(NSDate *)time from:(BOOL)fromSelf level:(NSString*) level {
+- (UIView *)bubbleView:(NSString *)text time:(NSDate *)time from:(BOOL)fromSelf level:(NSString*) level sendUser:(NSString *)sendUser{
     //单条消息
     UIView *returnView =  [self assembleMessageAtIndex:text];
     returnView.backgroundColor = [UIColor clearColor];
@@ -317,7 +282,13 @@
     timeView.backgroundColor = [UIColor clearColor];
     NSDateFormatter  *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yy-MM-dd HH:mm:ss"];
-    NSMutableString *timeString = [NSMutableString stringWithFormat:@"%@",[formatter stringFromDate:time]];
+    NSMutableString *timeString;
+    if ([sendUser isEqual:@"system"] || fromSelf) {
+        timeString = [NSMutableString stringWithFormat:@"%@",[formatter stringFromDate:time]];
+    } else {
+        timeString = [NSMutableString stringWithFormat:@"%@(%@)",[formatter stringFromDate:time], sendUser];
+        level = @"bubbleUser";
+    }
     timeView.text = timeString;
     timeView.font = [UIFont fontWithName:@"Arial" size:12];
     timeView.textColor = [UIColor darkTextColor];
@@ -407,6 +378,91 @@
     return chatView.frame.size.height + 20;
 }
 
+-(void) loadData: (BOOL)isFirst {
+    //加载一个NSURL对象
+    int rand = arc4random() % 100000000;
+    NSString *url;
+    if (isFirst) {
+        url = [[NSString alloc] initWithFormat:@"%@%@?s=client&a=session_list&format=json&session=%@&_=%i", @"http://", API_HOST, session, rand];
+    } else {
+        url = [[NSString alloc] initWithFormat:@"%@%@?s=client&a=session_list&format=json&session=%@&first_id=%@&_=%i", @"http://", API_HOST, session, self.firstId, rand];
+    }
+    NSLog(@"%@", url);
+    // Do any additional setup after loading the view, typically from a nib.
+    LoadingView *indicator = [[LoadingView alloc]initWithFrame:CGRectMake(0, 0, 120, 120) superView:self.view];
+    [indicator alignToCenter];
+    [indicator show:YES];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler: ^(NSURLResponse *response,NSData *data,NSError *error){
+        if ([data length]>0 && error == nil) {
+            NSDictionary *projectDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            NSArray *projectDictData = [[projectDict objectForKey:@"result"] objectForKey:@"data"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([session length] == 32) {
+                    [self.navigationItem setTitle:[[projectDict objectForKey:@"result"] objectForKey:@"user"]];
+                    self.title = [[projectDict objectForKey:@"result"] objectForKey:@"user"];
+                    [self setTitle:@"aaa"];
+                } else {
+                    [self.navigationItem setTitle:session];
+                    self.title = session;
+                    [self setTitle:@"aaa"];
+                }
+                int i = 0;
+                for (NSDictionary *key in projectDictData) {
+                    if ([self.firstId length] == 0) {
+                        self.firstId = [key objectForKey:@"id"];
+                    } else if (!isFirst && i == 0){
+                        self.firstId = [key objectForKey:@"id"];
+                    }
+                    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
+                    BOOL from;
+                    if ([[key objectForKey:@"send_user"] isEqual:@"system"]) {
+                        from = NO;
+                    } else if ([[key objectForKey:@"send_user"] isEqual:loginStatus]) {
+                        from = YES;
+                    } else {
+                        from = NO;
+                    }
+                    NSDictionary *obj = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [key objectForKey:@"message"], @"text",
+                                               [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"] sendUser:[key objectForKey:@"send_user"]], @"view",
+                                               [key objectForKey:@"send_user"], @"speaker",
+                                               [key objectForKey:@"id"], @"id",
+                                               [key objectForKey:@"link"], @"link",
+                                               nil];
+                    if (isFirst) {
+                        [self.chatArray addObject: obj];
+                    } else {
+                        [self.chatArray insertObject:obj atIndex:i++];
+                    }
+                }
+                [self.chatTableView reloadData];
+                if (isFirst) {
+                    [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.chatArray count]-1 inSection:0]
+                                                 atScrollPosition: UITableViewScrollPositionBottom
+                                                         animated:YES];
+                } else {
+                    [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
+                                                 atScrollPosition: UITableViewScrollPositionTop
+                                                         animated:NO];
+                }
+                [indicator hide];
+            });
+        } else if([data length] == 0 && error == nil) {
+            NSLog(@"Nothing was downloaded.");
+        } else if(error != nil) {
+            NSLog(@"Error = %@", error);
+        } else {
+            NSLog(@"other");
+        }
+    }];
+    
+    //[self openUDPServer];
+}
+
+
 //返回按钮
 - (IBAction)back:(UIBarButtonItem *)sender {
     
@@ -442,11 +498,11 @@
         //加入时间行
         NSDate *nowTime = [NSDate date];
         self.messageTextField.text = @"";
-        [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:messageStr, @"text", [self bubbleView:messageStr time:nowTime from:YES level:@"0"], @"view", @"self", @"speaker", nil]];
+        [self.chatArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:messageStr, @"text", [self bubbleView:messageStr time:nowTime from:YES level:@"0" sendUser:@"me"], @"view", @"self", @"speaker", nil]];
         [self.chatTableView reloadData];
         [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.chatArray count]-1 inSection:0]
                                   atScrollPosition: UITableViewScrollPositionBottom
-									  animated:YES];//自动滑动到底部
+									  animated:YES];
         //self.messageString = self.messageTextField.text;
         [self.messageTextField resignFirstResponder];
         //加载一个NSURL对象
@@ -504,7 +560,7 @@
     NSLog(@"egoRefreshTableHeaderDidTriggerRefresh");
     
     [self reloadTableViewDataSource];
-    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
     
 }
 
@@ -517,46 +573,7 @@
 
 -(NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
     NSLog(@"egoRefreshTableHeaderDataSourceLastUpdated");
-    NSError *error;
-    //加载一个NSURL对象
-    int rand = arc4random() % 100000000;
-    NSString *url = [[NSString alloc] initWithFormat:@"%@%@?s=client&a=session_list&format=json&session=%@&first_id=%@&_=%i", @"http://", API_HOST, session, self.firstId, rand];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSLog(@"%@", url);
-    //将请求的url数据放到NSData对象中
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
-    NSArray *dictData = [[dict objectForKey:@"result"] objectForKey:@"data"];
-    NSLog(@"weatherInfo字典里面的内容为--》%@", dictData );
-    
-    int i = 0;
-    for (NSDictionary *key in dictData) {
-        if ([self.firstId length] == 0) {
-            self.firstId = [key objectForKey:@"id"];
-        }
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
-        BOOL from;
-        if ([[key objectForKey:@"send_user"] isEqual:@"system"]) {
-            from = NO;
-        } else if ([[key objectForKey:@"send_user"] isEqual:loginStatus]) {
-            from = YES;
-        } else {
-            from = NO;
-        }
-        [self.chatArray insertObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                      [key objectForKey:@"message"], @"text",
-                                      [self bubbleView:[key objectForKey:@"message"] time:date from:from level:[key objectForKey:@"level"]], @"view",
-                                      [key objectForKey:@"send_user"], @"speaker",
-                                      [key objectForKey:@"id"], @"id",
-                                      [key objectForKey:@"link"], @"link",
-                                      nil] atIndex:i++];
-    }
-    
-    [self.chatTableView reloadData];
-    [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
-                                 atScrollPosition: UITableViewScrollPositionTop
-                                         animated:NO];
+    [self loadData:NO];
     return[NSDate date]; // should return date data source was last changed
     
 }

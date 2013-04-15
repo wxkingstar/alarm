@@ -10,6 +10,7 @@
 #import "ProjectViewController.h"
 #import "AsyncUdpSocket.h"
 #import "EGORefreshTableHeaderView.h"
+#import "LoadingView.h"
 
 @interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
@@ -31,5 +32,6 @@
 @property (strong, nonatomic) IBOutlet UITableView *messageTableView;
 - (IBAction)logout:(UIBarButtonItem *)sender;
 @property (strong, nonatomic) NSString *firstId;
+- (IBAction)refresh:(id)sender;
 
 @end

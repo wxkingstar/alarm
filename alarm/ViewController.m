@@ -29,9 +29,9 @@
 {
     [super viewDidLoad];
     currentView = @"View";
-	// Do any additional setup after loading the view, typically from a nib.
     
-    if(_refreshHeaderView ==nil){
+    self.projectList = [[NSMutableArray alloc] init];
+    if(_refreshHeaderView == nil){
         
         EGORefreshTableHeaderView *view =[[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.messageTableView.bounds.size.height, self.view.frame.size.width, self.messageTableView.bounds.size.height)];
         view.delegate = self;
@@ -40,64 +40,10 @@
     }
     //  update the last update date
     //[_refreshHeaderView refreshLastUpdatedDate];
-     
+
+    NSLog(@"viewDidLoad");
+    [self loadData:YES];
     
-    /*
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"database_name"];
-    sqlite3 *database;
-    sqlite3_open([path UTF8String], &database);
-     */
-    NSError *error;
-    //加载一个NSURL对象
-    int rand = arc4random() % 100000000;
-    NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=lists&username=%@&format=json&_=%i", API_HOST, loginStatus, rand];
-    NSLog(@"%@", url);
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    //将请求的url数据放到NSData对象中
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
-    NSDictionary *projectDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
-    NSArray *projectDictData = [[projectDict objectForKey:@"result"] objectForKey:@"data"];
-    //NSLog(@"weatherInfo字典里面的内容为--》%@", projectDictData );
-    
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    for (NSDictionary *key in projectDictData) {
-        if ([self.firstId length] == 0) {
-            self.firstId = [key objectForKey:@"id"];
-        }
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
-        
-        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                          [key objectForKey:@"message"], @"message",
-                          [key objectForKey:@"session"], @"session",
-                          [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view",
-                          [key objectForKey:@"id"], @"id",
-                          [key objectForKey:@"link"], @"link",
-                          nil]];
-    }
-    /*
-    //无网络状态调试
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:@"Dagger" forKey:@"name"];
-    [dict setObject:[[NSNumber alloc] initWithInt:3] forKey:@"alarmCount"];
-    [array addObject:dict];	
-     */
-    if ([array count] == 0) {
-        NSDate *date = [NSDate date];
-        [array addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"暂无消息", @"message", @"", @"session", [self bubbleView:@"暂无消息" time:date level:@"1"], @"view", nil]];
-    }
-    
-    self.projectList = array;
-    
-    //[self openUDPServer];
-    
-    [self.messageTableView reloadData];
-    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.projectList count]-1 inSection:0]
-                             atScrollPosition: UITableViewScrollPositionBottom
-                                     animated:YES];//自动滑动到底部
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,6 +56,7 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    NSLog(@"viewDidUnload");
     self.projectList = nil;
     
 }
@@ -375,6 +322,75 @@
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
+-(void) loadData: (BOOL)isFirst {
+    //加载一个NSURL对象
+    int rand = arc4random() % 100000000;
+    NSString *url;
+    if (isFirst) {
+        url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=lists&username=%@&format=json&_=%i", API_HOST, loginStatus, rand];
+    } else {
+        url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=lists&username=%@&format=json&first_id=%@&_=%i", API_HOST, loginStatus, self.firstId, rand];
+    }
+    NSLog(@"%@", url);
+    // Do any additional setup after loading the view, typically from a nib.
+    LoadingView *indicator = [[LoadingView alloc]initWithFrame:CGRectMake(0, 0, 120, 120) superView:self.view];
+    [indicator alignToCenter];
+    [indicator show:YES];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler: ^(NSURLResponse *response,NSData *data,NSError *error){
+        if ([data length]>0 && error == nil) {
+            NSDictionary *projectDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            NSArray *projectDictData = [[projectDict objectForKey:@"result"] objectForKey:@"data"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                int i = 0;
+                for (NSDictionary *key in projectDictData) {
+                    if ([self.firstId length] == 0) {
+                        self.firstId = [key objectForKey:@"id"];
+                    } else if (!isFirst && i == 0){
+                        self.firstId = [key objectForKey:@"id"];
+                    }
+                    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:[[key objectForKey:@"time"] integerValue]];
+                    NSDictionary *obj = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         [key objectForKey:@"message"], @"message",
+                                         [key objectForKey:@"session"], @"session",
+                                         [self bubbleView:[key objectForKey:@"message"] time:date level:[key objectForKey:@"level"]], @"view",
+                                         [key objectForKey:@"id"], @"id",
+                                         [key objectForKey:@"link"], @"link",
+                                         nil];
+                    if (isFirst) {
+                        [self.projectList addObject: obj];
+                    } else {
+                        [self.projectList insertObject:obj atIndex:i++];
+                    }
+                }
+                [self.messageTableView setHidden:YES];
+                [self.messageTableView reloadData];
+                if (isFirst) {
+                    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.projectList count]-1 inSection:0]
+                                                 atScrollPosition: UITableViewScrollPositionBottom
+                                                         animated:YES];
+                } else {
+                    [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
+                                                 atScrollPosition: UITableViewScrollPositionTop
+                                                         animated:NO];
+                }
+                [indicator hide]; 
+                [self.messageTableView setHidden:NO];
+            });
+        } else if([data length] == 0 && error == nil) {
+            NSLog(@"Nothing was downloaded.");
+        } else if(error != nil) {
+            NSLog(@"Error = %@", error);
+        } else {
+            NSLog(@"other");
+        }
+    }];
+    //[self openUDPServer];
+    
+}
+
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
@@ -382,6 +398,7 @@
     NSLog(@"reloadTableViewDataSource");
     //  should be calling your tableviews data source model to reload
     //  put here just for demo
+    
     _reloading =YES;
     
 }
@@ -389,7 +406,6 @@
 -(void)doneLoadingTableViewData{
     NSLog(@"doneLoadingTableViewData");
     //  model should call this when its done loading
-    
     _reloading =NO;
     [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.messageTableView];
     
@@ -432,6 +448,7 @@
 
 -(NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
     NSLog(@"egoRefreshTableHeaderDataSourceLastUpdated");
+    /*
     NSError *error;
     //加载一个NSURL对象
     int rand = arc4random() % 100000000;
@@ -465,8 +482,13 @@
     [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
                                  atScrollPosition: UITableViewScrollPositionTop
                                          animated:NO];
+     */
+    [self loadData:NO];
     return[NSDate date]; // should return date data source was last changed
     
 }
  
+- (IBAction)refresh:(id)sender {
+    [self viewDidLoad];
+}
 @end
