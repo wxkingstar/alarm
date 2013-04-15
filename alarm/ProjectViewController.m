@@ -442,7 +442,7 @@
                 if (isFirst) {
                     [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.chatArray count]-1 inSection:0]
                                                  atScrollPosition: UITableViewScrollPositionBottom
-                                                         animated:YES];
+                                                         animated:NO];
                 } else {
                     [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
                                                  atScrollPosition: UITableViewScrollPositionTop
@@ -540,7 +540,7 @@
 #pragma mark UIScrollViewDelegate Methods
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"scrollViewDidScroll");
+    //NSLog(@"scrollViewDidScroll");
     
     [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
     
@@ -565,7 +565,7 @@
 }
 
 -(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
-    NSLog(@"egoRefreshTableHeaderDataSourceIsLoading");
+    //NSLog(@"egoRefreshTableHeaderDataSourceIsLoading");
     
     return _reloading; // should return if data source model is reloading
     

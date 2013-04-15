@@ -370,7 +370,7 @@
                 if (isFirst) {
                     [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.projectList count]-1 inSection:0]
                                                  atScrollPosition: UITableViewScrollPositionBottom
-                                                         animated:YES];
+                                                         animated:NO];
                 } else {
                     [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]
                                                  atScrollPosition: UITableViewScrollPositionTop

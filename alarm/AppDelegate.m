@@ -14,6 +14,7 @@
 {
     // Override point for customization after application launch.
     //UIRemoteNotificationTypeBadge
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
     NSLog(@"didFinishLaunchingWithOptions");
     
