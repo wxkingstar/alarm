@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AsyncUdpSocket.h"
 #import "EGORefreshTableHeaderView.h"
+#import "LoadingView.h"
 
 @interface ProjectViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> 
 {
@@ -31,5 +32,7 @@
 @property (strong, nonatomic) NSString *session;
 @property (strong, nonatomic) AsyncUdpSocket *udpSocket;
 @property (strong, nonatomic) NSString *firstId;
+@property (strong, nonatomic) NSString *userList;
+@property (strong, nonatomic) UINavigationItem *myNavigationItem;
 
 @end

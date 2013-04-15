@@ -34,6 +34,11 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CsP-3c-Nk9">
                                 <items>
                                     <navigationItem title="监控中心" id="dZQ-kV-oeV">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="5Km-wL-hdG">
+                                            <connections>
+                                                <action selector="refresh:" destination="2" id="OjX-Vb-ZJ8"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="注销" id="zwC-0q-W2i">
                                             <connections>
                                                 <action selector="logout:" destination="2" id="ayp-Hu-Xl7"/>
@@ -315,14 +320,12 @@
         </class>
         <class className="SettingViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="back:" candidateClass="UIBarButtonItem"/>
-            </relationships>
         </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
                 <relationship kind="action" name="logout:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="refresh:"/>
                 <relationship kind="action" name="setting:" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="messageTableView" candidateClass="UITableView"/>
             </relationships>

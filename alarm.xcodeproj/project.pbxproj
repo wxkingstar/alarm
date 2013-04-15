@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D02AE149171A772E007271E3 /* bubbleUser.png in Resources */ = {isa = PBXBuildFile; fileRef = D02AE148171A772E007271E3 /* bubbleUser.png */; };
+		D02AE14C171AA992007271E3 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D02AE14B171AA992007271E3 /* LoadingView.m */; };
 		D0443AAD1717D20E00040F1D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AAA1717D20E00040F1D /* Icon.png */; };
 		D0443AAE1717D20E00040F1D /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0443AAC1717D20E00040F1D /* ProjectViewController.m */; };
 		D0443AC21717DF8900040F1D /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443ABF1717DF8800040F1D /* 1.png */; };
@@ -62,6 +64,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D02AE148171A772E007271E3 /* bubbleUser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleUser.png; sourceTree = "<group>"; };
+		D02AE14A171AA992007271E3 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
+		D02AE14B171AA992007271E3 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		D0443AAA1717D20E00040F1D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D0443AAB1717D20E00040F1D /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		D0443AAC1717D20E00040F1D /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
@@ -143,6 +148,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D02AE14D171AECC2007271E3 /* loading */ = {
+			isa = PBXGroup;
+			children = (
+				D02AE14A171AA992007271E3 /* LoadingView.h */,
+				D02AE14B171AA992007271E3 /* LoadingView.m */,
+			);
+			name = loading;
+			sourceTree = "<group>";
+		};
 		D0443AE9171914C300040F1D /* refresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +218,7 @@
 		D0EF11471702A02900FF8E2B /* alarm */ = {
 			isa = PBXGroup;
 			children = (
+				D02AE14D171AECC2007271E3 /* loading */,
 				D0443AE9171914C300040F1D /* refresh */,
 				D0794EE6170BBF3B00B38973 /* socket */,
 				D0EF11501702A02900FF8E2B /* AppDelegate.h */,
@@ -237,6 +252,7 @@
 				D0EF114A1702A02900FF8E2B /* InfoPlist.strings */,
 				D0EF114D1702A02900FF8E2B /* main.m */,
 				D0FFD95917074BA100016EAA /* bubbleSelf.png */,
+				D02AE148171A772E007271E3 /* bubbleUser.png */,
 				D0FFD95A17074BA100016EAA /* default_head_online.png */,
 				D0FFD95B17074BA100016EAA /* face_test.png */,
 				D0EF114F1702A02900FF8E2B /* alarm-Prefix.pch */,
@@ -361,6 +377,7 @@
 				D0443AD91718534800040F1D /* grayArrow@2x.png in Resources */,
 				D0443ADD1718534800040F1D /* whiteArrow.png in Resources */,
 				D0443ADE1718534800040F1D /* whiteArrow@2x.png in Resources */,
+				D02AE149171A772E007271E3 /* bubbleUser.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +420,7 @@
 				D0B93E261711872B00D6D182 /* LoginViewController.m in Sources */,
 				D0443AAE1717D20E00040F1D /* ProjectViewController.m in Sources */,
 				D0443AC717184D8F00040F1D /* EGORefreshTableHeaderView.m in Sources */,
+				D02AE14C171AA992007271E3 /* LoadingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
