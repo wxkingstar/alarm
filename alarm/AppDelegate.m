@@ -78,6 +78,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"%@", userInfo);
 
+    if ([[userInfo objectForKey:@"from"] length] > 0) {
+        currentView = @"ProjectView";
+    }
     if ([[userInfo objectForKey:@"aps"] objectForKey:@"alert"] != NULL) {
         if ([currentView isEqual:@"View"] || [currentView isEqual:@"ProjectView"]) {
             self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

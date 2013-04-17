@@ -37,6 +37,11 @@
 }
 
 - (IBAction)login:(UIButton *)sender {
+    /*
+    LoadingView *indicator = [[LoadingView alloc]initWithFrame:CGRectMake(0, 0, 120, 120) superView:self.view];
+    [indicator alignToCenter];
+    [indicator show:YES];
+    */
     NSString *username = self.username.text;
     NSString *password = self.password.text;
     NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=login&format=json", API_HOST];

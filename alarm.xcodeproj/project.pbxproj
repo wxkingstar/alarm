@@ -529,15 +529,15 @@
 		D0EF11771702A02900FF8E2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: lei shao (E972HLV37J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lei shao (E972HLV37J)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarm/alarm-Prefix.pch";
 				INFOPLIST_FILE = "alarm/alarm-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9865060E-E629-4363-8011-1E603B14AED9";
+				PROVISIONING_PROFILE = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -545,15 +545,15 @@
 		D0EF11781702A02900FF8E2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: lei shao (E972HLV37J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lei shao (E972HLV37J)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarm/alarm-Prefix.pch";
 				INFOPLIST_FILE = "alarm/alarm-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9865060E-E629-4363-8011-1E603B14AED9";
+				PROVISIONING_PROFILE = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -15,11 +15,7 @@
 
 #define APP_VERSION @"0.9"
 
-#ifdef DEBUG 
 #define API_HOST @"alarm.mix.sina.com.cn"
-#else
-#define API_HOST @"alarm.mix.sina.com.cn"
-#endif
 
 #define UDP_HOST @"10.210.136.100"
 

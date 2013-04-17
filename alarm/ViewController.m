@@ -376,8 +376,9 @@
                                                  atScrollPosition: UITableViewScrollPositionTop
                                                          animated:NO];
                 }
-                [indicator hide]; 
                 [self.messageTableView setHidden:NO];
+
+                [indicator hide];
             });
         } else if([data length] == 0 && error == nil) {
             NSLog(@"Nothing was downloaded.");

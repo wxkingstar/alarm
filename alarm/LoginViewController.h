@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoadingView.h"
 
 @interface LoginViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UITextField *username;

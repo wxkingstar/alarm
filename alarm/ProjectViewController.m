@@ -283,7 +283,7 @@
     NSDateFormatter  *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yy-MM-dd HH:mm:ss"];
     NSMutableString *timeString;
-    if ([sendUser isEqual:@"system"] || fromSelf) {
+    if ([sendUser isEqual:@"system"] || fromSelf || [sendUser length] == 0) {
         timeString = [NSMutableString stringWithFormat:@"%@",[formatter stringFromDate:time]];
     } else {
         timeString = [NSMutableString stringWithFormat:@"%@(%@)",[formatter stringFromDate:time], sendUser];
