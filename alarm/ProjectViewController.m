@@ -124,9 +124,9 @@
     NSLog(@"%f", h);
     UIToolbar *toolbar = (UIToolbar *)[self.view viewWithTag:TOOLBARTAG];
 	//toolbar.frame = CGRectMake(0.0f, (float)(480.0-h-108.0), 320.0f, 44.0f);
-	toolbar.frame = CGRectMake(0.0f, (float)(480.0-h-64.0), 320.0f, 44.0f);
+	toolbar.frame = CGRectMake(0.0f, (float)(UI_SCREEN_HEIGHT-h-64.0), 320.0f, 44.0f);
 	UITableView *tableView = (UITableView *)[self.view viewWithTag:TABLEVIEWTAG];
-	tableView.frame = CGRectMake(0.0f, 44.0f, 320.0f,(float)(480.0-h-108.0));
+	tableView.frame = CGRectMake(0.0f, 44.0f, 320.0f,(float)(UI_SCREEN_HEIGHT-h-108.0));
     //[self.chatTableView reloadData];
     [self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[self.chatArray count]-1 inSection:0]
                               atScrollPosition: UITableViewScrollPositionBottom
