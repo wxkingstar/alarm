@@ -16,7 +16,7 @@
 #define IPHONE5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
 #define UI_SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
 
-#define APP_VERSION @"0.9"
+#define APP_VERSION 0.9
 
 #define API_HOST @"alarm.mix.sina.com.cn"
 

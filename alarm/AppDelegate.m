@@ -19,10 +19,11 @@
     NSLog(@"didFinishLaunchingWithOptions");
     
     NSString*path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSString*file = [path stringByAppendingPathComponent:@"user.db"];
+    NSString*file = [path stringByAppendingPathComponent:@"alarm.db"];
+    NSLog(@"db file path:%@", file);
     if([[NSFileManager defaultManager] fileExistsAtPath:file] == FALSE)
     {
-        NSString *fromFile = [[NSBundle mainBundle] pathForResource:@"user.db" ofType:nil];
+        NSString *fromFile = [[NSBundle mainBundle] pathForResource:@"alarm.db" ofType:nil];
         [[NSFileManager defaultManager] copyItemAtPath:fromFile toPath:file error:nil];
     }
     // open
@@ -30,6 +31,61 @@
         NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
     }
     
+    
+    //获取最后监测时间
+    NSString *lastCheckTime;
+    NSString *sql = [NSString stringWithFormat:@"SELECT `value` FROM `setting` WHERE `name` = 'last_check_time'"];
+    sqlite3_stmt *statementCheckTime;
+    if(sqlite3_prepare_v2(database, [sql UTF8String], -1, &statementCheckTime, NULL) == SQLITE_OK) {
+        if (sqlite3_step(statementCheckTime) == SQLITE_ROW) {
+            lastCheckTime = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statementCheckTime, 0)];
+        }
+    }
+    sqlite3_finalize(statementCheckTime);
+    
+    NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+    int nowTime = (int)time;
+    int lastTime = [lastCheckTime intValue];
+    if ((nowTime - lastTime) > 86400){
+        NSLog(@"检测新版本");
+        //检查版本  
+        NSError *error;
+        //加载一个NSURL对象
+        int rand = arc4random() % 100000000;
+        NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=version&format=json&_=%i", API_HOST, rand];
+        NSLog(@"%@", url);
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        //将请求的url数据放到NSData对象中
+        NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+        NSString *codeStatus = [[[dict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"code"];
+        if ([codeStatus isKindOfClass:[NSNumber class]]) {
+            codeStatus = [NSString stringWithFormat:@"%@",codeStatus];
+        }
+        if ([codeStatus isEqual:@"0"]) {
+            float newVersion = [[[dict objectForKey:@"result"] objectForKey:@"data"] floatValue];
+            if (newVersion > APP_VERSION){
+                NSLog(@"检测到新版本");
+                NSString *msg = [[[dict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"msg"];
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"新版本检测" message:msg delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"下载", nil];
+                [alert show];
+            }
+        }
+        
+        //更新最后检测时间
+        char *err;
+        if (lastTime == 0) {
+            sql = [NSString stringWithFormat:@"INSERT INTO `setting` VALUES ('last_check_time', '%d')", nowTime];
+        } else {
+            sql = [NSString stringWithFormat:@"UPDATE `setting` SET  `value` = '%d' WHERE `name` = 'last_check_time'", nowTime];
+        }
+        if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+            sqlite3_close(database);
+            NSAssert(0, @"数据操作错误！");
+        }
+    }
+
+    //检测登录状态
     NSString *ssql = [NSString stringWithFormat:@"SELECT * FROM `user`"];
     sqlite3_stmt *statement;
     if(sqlite3_prepare_v2(database, [ssql UTF8String], -1, &statement, NULL) == SQLITE_OK) {
@@ -50,6 +106,13 @@
     }
 
     return YES;
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://%@/?s=client&a=download", API_HOST]]];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
