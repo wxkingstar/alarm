@@ -48,41 +48,47 @@
     int lastTime = [lastCheckTime intValue];
     if ((nowTime - lastTime) > 86400){
         NSLog(@"检测新版本");
-        //检查版本  
-        NSError *error;
-        //加载一个NSURL对象
-        int rand = arc4random() % 100000000;
-        NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=version&format=json&_=%i", API_HOST, rand];
-        NSLog(@"%@", url);
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-        //将请求的url数据放到NSData对象中
-        NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
-        NSString *codeStatus = [[[dict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"code"];
-        if ([codeStatus isKindOfClass:[NSNumber class]]) {
-            codeStatus = [NSString stringWithFormat:@"%@",codeStatus];
-        }
-        if ([codeStatus isEqual:@"0"]) {
-            float newVersion = [[[dict objectForKey:@"result"] objectForKey:@"data"] floatValue];
-            if (newVersion > APP_VERSION){
-                NSLog(@"检测到新版本");
-                NSString *msg = [[[dict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"msg"];
-                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"新版本检测" message:msg delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"下载", nil];
-                [alert show];
+        @try {
+            //检查版本
+            NSError *error;
+            //加载一个NSURL对象
+            int rand = arc4random() % 100000000;
+            NSString *url = [[NSString alloc] initWithFormat:@"http://%@/?s=client&a=version&format=json&_=%i", API_HOST, rand];
+            NSLog(@"%@", url);
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+            //将请求的url数据放到NSData对象中
+            NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+            NSString *codeStatus = [[[dict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"code"];
+            if ([codeStatus isKindOfClass:[NSNumber class]]) {
+                codeStatus = [NSString stringWithFormat:@"%@",codeStatus];
             }
+            if ([codeStatus isEqual:@"0"]) {
+                float newVersion = [[[dict objectForKey:@"result"] objectForKey:@"data"] floatValue];
+                if (newVersion > APP_VERSION){
+                    NSLog(@"检测到新版本");
+                    NSString *msg = [[[dict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"msg"];
+                    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"新版本检测" message:msg delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"下载", nil];
+                    [alert show];
+                }
+            }
+            
+            //更新最后检测时间
+            char *err;
+            if (lastTime == 0) {
+                sql = [NSString stringWithFormat:@"INSERT INTO `setting` VALUES ('last_check_time', '%d')", nowTime];
+            } else {
+                sql = [NSString stringWithFormat:@"UPDATE `setting` SET  `value` = '%d' WHERE `name` = 'last_check_time'", nowTime];
+            }
+            if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+                sqlite3_close(database);
+                NSAssert(0, @"数据操作错误！");
+            }
+        }@catch (NSException *exception) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"版本检测失败" message:@"网络不给力" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+            [alert show];
         }
         
-        //更新最后检测时间
-        char *err;
-        if (lastTime == 0) {
-            sql = [NSString stringWithFormat:@"INSERT INTO `setting` VALUES ('last_check_time', '%d')", nowTime];
-        } else {
-            sql = [NSString stringWithFormat:@"UPDATE `setting` SET  `value` = '%d' WHERE `name` = 'last_check_time'", nowTime];
-        }
-        if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
-            sqlite3_close(database);
-            NSAssert(0, @"数据操作错误！");
-        }
     }
 
     //检测登录状态
@@ -128,7 +134,7 @@
 	NSString *deviceModel = dev.model;
 	NSString *deviceSystemVersion = dev.systemVersion;
     
-    NSString *postString = [[NSString alloc] initWithFormat:@"appid=6486b4e9-8228-b83d-4b13-d54f-ebe5f170&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushalert=enabled&pushbadge=enabled&pushsound=enabled&appversion=%@", strDeviceToken, deviceName, deviceModel, deviceSystemVersion, APP_VERSION];
+    NSString *postString = [[NSString alloc] initWithFormat:@"appid=6486b4e9-8228-b83d-4b13-d54f-ebe5f170&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushalert=enabled&pushbadge=enabled&pushsound=enabled&appversion=%f", strDeviceToken, deviceName, deviceModel, deviceSystemVersion, APP_VERSION];
     NSLog(@"%@", postString);
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];

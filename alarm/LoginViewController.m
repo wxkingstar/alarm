@@ -56,30 +56,38 @@
     [request setHTTPMethod:@"POST"];
     [request setValue:@".sina.com.cn" forHTTPHeaderField:@"Referer"];
     //NSData *response = [NSURLConnection connectionWithRequest:request delegate:self];
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSData *response;
     NSError *error;
-    NSDictionary *projectDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
-    NSString *codeStatus = [[[projectDict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"code"];
-    if ([codeStatus isKindOfClass:[NSNumber class]]) {
-        codeStatus = [NSString stringWithFormat:@"%@",codeStatus];
-    }
-    if ([codeStatus isEqualToString:@"0"]) {
-        NSLog(@"登录成功");
-        
-        if (loginStatus.length == 0) {
-            char *err;
-            NSString *sql = [NSString stringWithFormat:@"INSERT INTO `user` VALUES ('%@')", username];
-            if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
-                sqlite3_close(database);
-                NSAssert(0, @"插入数据错误！");
-            }
-            loginStatus = username;
+    NSDictionary *projectDict;
+    @try {
+        response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        projectDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+        NSString *codeStatus = [[[projectDict objectForKey:@"result"] objectForKey:@"status"] objectForKey:@"code"];
+        if ([codeStatus isKindOfClass:[NSNumber class]]) {
+            codeStatus = [NSString stringWithFormat:@"%@",codeStatus];
         }
-        UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        UIViewController* viewController = [sb instantiateViewControllerWithIdentifier:@"ViewController"];
-        [self presentViewController:viewController animated:YES completion:nil];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"用户名或密码错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+        if ([codeStatus isEqualToString:@"0"]) {
+            NSLog(@"登录成功");
+            
+            if (loginStatus.length == 0) {
+                char *err;
+                NSString *sql = [NSString stringWithFormat:@"INSERT INTO `user` VALUES ('%@')", username];
+                if (sqlite3_exec(database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+                    sqlite3_close(database);
+                    NSAssert(0, @"插入数据错误！");
+                }
+                loginStatus = username;
+            }
+            UIStoryboard*  sb = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            UIViewController* viewController = [sb instantiateViewControllerWithIdentifier:@"ViewController"];
+            [self presentViewController:viewController animated:YES completion:nil];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"用户名或密码错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+            [alert show];
+        }
+    }
+    @catch (NSException *exception) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登录失败" message:@"网络不给力" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
         [alert show];
     }
 }
