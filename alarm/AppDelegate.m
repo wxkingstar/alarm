@@ -122,26 +122,31 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://client.mix.sina.com.cn/api/push/reg_apns"]];
-    //[request setValue:@"Some Value" forHTTPHeaderField:@"Some-Header"];
-    strDeviceToken = [[[[deviceToken description]
-                                  stringByReplacingOccurrencesOfString:@"<"withString:@""]
-                                 stringByReplacingOccurrencesOfString:@">" withString:@""]
-                                stringByReplacingOccurrencesOfString: @" " withString: @""];
-    UIDevice *dev = [UIDevice currentDevice];
-    
-	NSString *deviceName = dev.name;
-	NSString *deviceModel = dev.model;
-	NSString *deviceSystemVersion = dev.systemVersion;
-    
-    NSString *postString = [[NSString alloc] initWithFormat:@"appid=6486b4e9-8228-b83d-4b13-d54f-ebe5f170&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushalert=enabled&pushbadge=enabled&pushsound=enabled&appversion=%f", strDeviceToken, deviceName, deviceModel, deviceSystemVersion, APP_VERSION];
-    NSLog(@"%@", postString);
-    NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:data];
-    
-    [request setHTTPMethod:@"POST"];
-    [NSURLConnection connectionWithRequest:request delegate:self];
-    NSLog(@"regisger success:%@", deviceToken);
+    @try {
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://client.mix.sina.com.cn/api/push/reg_apns"]];
+        //[request setValue:@"Some Value" forHTTPHeaderField:@"Some-Header"];
+        strDeviceToken = [[[[deviceToken description]
+                            stringByReplacingOccurrencesOfString:@"<"withString:@""]
+                           stringByReplacingOccurrencesOfString:@">" withString:@""]
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];
+        UIDevice *dev = [UIDevice currentDevice];
+        
+        NSString *deviceName = dev.name;
+        NSString *deviceModel = dev.model;
+        NSString *deviceSystemVersion = dev.systemVersion;
+        
+        NSString *postString = [[NSString alloc] initWithFormat:@"appid=6486b4e9-8228-b83d-4b13-d54f-ebe5f170&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushalert=enabled&pushbadge=enabled&pushsound=enabled&appversion=%f", strDeviceToken, deviceName, deviceModel, deviceSystemVersion, APP_VERSION];
+        NSLog(@"%@", postString);
+        NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+        [request setHTTPMethod:@"POST"];
+        [NSURLConnection connectionWithRequest:request delegate:self];
+        NSLog(@"regisger success:%@", deviceToken);
+    } @catch (NSException *exception) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"设备id注册失败" message:@"网络不给力" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

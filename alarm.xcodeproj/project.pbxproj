@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D01303821728DF7B001A8626 /* alarm.db in Resources */ = {isa = PBXBuildFile; fileRef = D01303811728DF7B001A8626 /* alarm.db */; };
 		D02AE149171A772E007271E3 /* bubbleUser.png in Resources */ = {isa = PBXBuildFile; fileRef = D02AE148171A772E007271E3 /* bubbleUser.png */; };
 		D02AE14C171AA992007271E3 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D02AE14B171AA992007271E3 /* LoadingView.m */; };
 		D0443AAD1717D20E00040F1D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AAA1717D20E00040F1D /* Icon.png */; };
@@ -25,7 +26,6 @@
 		D0443ADE1718534800040F1D /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0443AD31718534800040F1D /* whiteArrow@2x.png */; };
 		D0443AE81718E94900040F1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0443AE71718E94900040F1D /* QuartzCore.framework */; };
 		D0656A561712C3F600F39A8F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D0656A551712C3F600F39A8F /* libsqlite3.0.dylib */; };
-		D0656A581712D07400F39A8F /* user.db in Resources */ = {isa = PBXBuildFile; fileRef = D0656A571712D07400F39A8F /* user.db */; };
 		D0794EEB170BBF5900B38973 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = D0794EE8170BBF5900B38973 /* AsyncUdpSocket.m */; };
 		D0B404BC17115A1400B5E37A /* 1.caf in Resources */ = {isa = PBXBuildFile; fileRef = D0B404BB17115A1400B5E37A /* 1.caf */; };
 		D0B93E261711872B00D6D182 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B93E251711872B00D6D182 /* LoginViewController.m */; };
@@ -64,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D01303811728DF7B001A8626 /* alarm.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.db; sourceTree = "<group>"; };
 		D02AE148171A772E007271E3 /* bubbleUser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleUser.png; sourceTree = "<group>"; };
 		D02AE14A171AA992007271E3 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		D02AE14B171AA992007271E3 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
@@ -85,7 +86,6 @@
 		D0443AD31718534800040F1D /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "whiteArrow@2x.png"; path = "Refresh/whiteArrow@2x.png"; sourceTree = "<group>"; };
 		D0443AE71718E94900040F1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D0656A551712C3F600F39A8F /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		D0656A571712D07400F39A8F /* user.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = user.db; sourceTree = "<group>"; };
 		D0794EE7170BBF5900B38973 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
 		D0794EE8170BBF5900B38973 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		D0B404BB17115A1400B5E37A /* 1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.caf; sourceTree = "<group>"; };
@@ -240,6 +240,7 @@
 		D0EF11481702A02900FF8E2B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D01303811728DF7B001A8626 /* alarm.db */,
 				D0B404BB17115A1400B5E37A /* 1.caf */,
 				D0B93E2717118B0400D6D182 /* 2.caf */,
 				D0B93E2817118B0400D6D182 /* 3.caf */,
@@ -247,7 +248,6 @@
 				D0443AC01717DF8800040F1D /* 2.png */,
 				D0443AC11717DF8800040F1D /* 3.png */,
 				D0443AAA1717D20E00040F1D /* Icon.png */,
-				D0656A571712D07400F39A8F /* user.db */,
 				D0EF11491702A02900FF8E2B /* alarm-Info.plist */,
 				D0EF114A1702A02900FF8E2B /* InfoPlist.strings */,
 				D0EF114D1702A02900FF8E2B /* main.m */,
@@ -364,7 +364,6 @@
 				D0B404BC17115A1400B5E37A /* 1.caf in Resources */,
 				D0B93E2917118B0400D6D182 /* 2.caf in Resources */,
 				D0B93E2A17118B0400D6D182 /* 3.caf in Resources */,
-				D0656A581712D07400F39A8F /* user.db in Resources */,
 				D0443AAD1717D20E00040F1D /* Icon.png in Resources */,
 				D0443AC21717DF8900040F1D /* 1.png in Resources */,
 				D0443AC31717DF8900040F1D /* 2.png in Resources */,
@@ -378,6 +377,7 @@
 				D0443ADD1718534800040F1D /* whiteArrow.png in Resources */,
 				D0443ADE1718534800040F1D /* whiteArrow@2x.png in Resources */,
 				D02AE149171A772E007271E3 /* bubbleUser.png in Resources */,
+				D01303821728DF7B001A8626 /* alarm.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +482,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: lei shao (E972HLV37J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lei shao (E972HLV37J)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -497,6 +498,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "77B531F7-A41A-4F14-889B-D3217B63CF6D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "77B531F7-A41A-4F14-889B-D3217B63CF6D";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -513,7 +516,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -521,6 +525,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -529,16 +534,16 @@
 		D0EF11771702A02900FF8E2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: lei shao (E972HLV37J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lei shao (E972HLV37J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarm/alarm-Prefix.pch";
 				INFOPLIST_FILE = "alarm/alarm-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -547,16 +552,16 @@
 		D0EF11781702A02900FF8E2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: lei shao (E972HLV37J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: lei shao (E972HLV37J)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "alarm/alarm-Prefix.pch";
 				INFOPLIST_FILE = "alarm/alarm-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C11DCED8-3F6D-469B-947A-53B4B35B8E49";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
